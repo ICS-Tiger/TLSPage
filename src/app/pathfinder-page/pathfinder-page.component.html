@@ -1,50 +1,101 @@
 <div class="container">
   <div class="lists-container">
-    <div class="list-section">
-      <h3>Liste 1 - Nodes</h3>
-      <ul>
-        @for (node of list1; track node.id) {
-          <li>
-            <div>Name: {{node.name}}</div>
-            <div>Lagerplatznummer: {{node.nearestToStartName}}</div>
-          </li>
-        }
-      </ul>
-    </div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Liste - Nodes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item *ngFor="let node of getFilteredList1(); trackBy: trackById">
+            <span matListItemTitle>{{node.name}}</span>
+            <span matListItemLine>Lagerplatznummer: {{node.nearestToStartName}}</span>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
 
-    <div class="list-section">
-      <h3>Liste 2 - Used Tags</h3>
-      <ul>
-        @for (tag of list2; track tag.id) {
-          <li>
-            <div>ID: {{tag.id}}</div>
-            <div>Name: {{tag.tagName}}</div>
-          </li>
-        }
-      </ul>
-    </div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Liste - Used Tags</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="list2.length === 0" class="loading-spinner">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+        <div *ngIf="list2.length > 0">
+          <mat-list>
+            <mat-list-item *ngFor="let tag of list2; trackBy: trackById" (click)="onTagClick(tag)">
+              <div matListItemTitle>Tag ID: {{tag.ID}}</div>
+              <div matListItemLine>Name: {{tag.TagName}}</div>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </mat-list>
+          <div *ngIf="selectedTag" class="selected-tag-info">
+            <label>Ausgewählter Tag: {{selectedTag.ID}} - {{selectedTag.TagName}}</label>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-    <div class="list-section">
-      <h3>Liste 3</h3>
-      <ul>
-        @for (item of list3; track $index) {
-          <li>{{item}}</li>
-        }
-      </ul>
-    </div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Liste 3</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item *ngFor="let item of list3; trackBy: trackByIndex">
+            {{item}}
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
   </div>
   
-  <div class="lists-container">
-    <div class="buttons-container">
-      <button (click)="startProcess(1)">Start 1</button>
-      <button (click)="startProcess(2)">Start 2</button>
-      <button (click)="startProcess(3)">Start 3</button>
-    </div>
+  <div class="buttons-container">
+    <button mat-raised-button color="primary" (click)="startProcess(1)">
+      <mat-icon>play_arrow</mat-icon>
+      Start 1
+    </button>
+    <button mat-raised-button color="primary" (click)="startProcess(2)">
+      <mat-icon>play_arrow</mat-icon>
+      Start 2
+    </button>
+    <button mat-raised-button color="primary" (click)="startProcess(3)">
+      <mat-icon>play_arrow</mat-icon>
+      Start 3
+    </button>
   </div>
 
-  <div class="image-frame">
-    @if (pictureUrl) {
-      <img [src]="pictureUrl" alt="API Picture">
-    }
-  </div>
+  <mat-card class="image-card">
+    <mat-card-content>
+      @if (!pictureUrl) {
+        <div class="loading-spinner">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+      } @else {
+        <img [src]="pictureUrl" alt="API Picture" class="map-image">
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="options-card">
+    <mat-card-content>
+      <div class="view-options">
+        <mat-radio-group [(ngModel)]="selectedViewOption" (ngModelChange)="onViewOptionChange()">
+          <mat-radio-button value="all">Alle</mat-radio-button>
+          <mat-radio-button value="used">Benutzt</mat-radio-button>
+          <mat-radio-button value="selected">Ausgewählt</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="url-display">
+        <span class="url-label">Debug Info:</span>
+        <div class="url-value">
+          <div>Selected Option: {{selectedViewOption}}</div>
+          <div>URL: {{currentUrl}}</div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

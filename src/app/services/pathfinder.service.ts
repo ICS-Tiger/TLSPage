@@ -6,13 +6,13 @@ interface Node {
   id: number;
   name: string;
   nearestToStartName: string | null;
-  // ... other properties if needed
 }
 
 interface UsedTag {
-  id: number;
-  tagName: string;
-  // add other properties if needed
+  id?: number;  // Optional, da möglicherweise nicht vom Server gesendet
+  ID: string;   // Dies ist das Hauptfeld, das vom Server kommt
+  TagName?: string; // Korrigiertes Feld für den Tag-Namen
+  TagId?: string;  // Die TagId für die Bildabfrage
 }
 
 export interface TagPoint {
@@ -31,6 +31,7 @@ export interface TagPoint {
 export class PathfinderService {
   private apiUrl = 'https://wms-pathfinder-api.azurewebsites.net/api';
   private interval = 1000; // 1 second default
+  private list2Cache: UsedTag[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -39,7 +40,26 @@ export class PathfinderService {
   }
 
   getList2(): Observable<UsedTag[]> {
-    return this.http.get<UsedTag[]>(`${this.apiUrl}/UsedTag`);
+    return this.http.get<any[]>(`${this.apiUrl}/UsedTag`).pipe(
+      map(response => {
+        console.log('Raw UsedTag response:', response);
+        const tags = Array.isArray(response) ? response : [];
+        this.list2Cache = tags.map(tag => {
+          // Speichere die komplette Server-Antwort für Debugging
+          console.log('Raw tag from server:', tag);
+          
+          const processedTag = {
+            id: tag.id,
+            ID: String(tag.id || ''),  // Verwende die numerische ID als String
+            TagName: String(tag.TagName  || 'none'),
+            TagId: String(tag.tagId ||   '000') // Originale TagId vom Server
+          };
+          console.log('Processed tag:', processedTag);
+          return processedTag;
+        });
+        return this.list2Cache;
+      })
+    );
   }
 
   getList3(): Observable<any[]> {
@@ -85,5 +105,43 @@ export class PathfinderService {
 
   getColorStyle(colorString: string): string {
     return `color: ${colorString};`;
+  }
+
+  getPictureFromUrl(url: string): Observable<Blob> {
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
+  getPictureUrl(type: 'all' | 'used' | 'selected', tagId?: string): string {
+    console.log('getPictureUrl called with:', { type, tagId });
+    
+    switch (type) {
+      case 'all':
+        return `${this.apiUrl}/GetPicture/GetRawPicture`;
+      case 'used':
+        return `${this.apiUrl}/GetPicture/GetRawPictureForUsedBy1`;
+      case 'selected':
+        if (!tagId) {
+          console.error('TagId is required for selected type');
+          throw new Error('TagId is required for selected view');
+        }
+
+        // Suche in list2Cache nach dem Tag mit der passenden ID
+        const foundTag = this.list2Cache.find(tag => tag.ID === tagId);
+        console.log('Found tag in cache:', foundTag);
+
+        // Verwende die originale TagId vom Server für den API-Aufruf
+        if (foundTag && foundTag.TagId) {
+          const cleanTagId = foundTag.TagId.trim();
+          if (!cleanTagId) {
+            throw new Error('TagId cannot be empty');
+          }
+          console.log('Using TagId for URL:', cleanTagId);
+          return `${this.apiUrl}/GetPicture/GetRawPictureForOneTag${cleanTagId}?size=1000`;
+        }
+        
+        return `${this.apiUrl}/GetPicture/GetRawPicture`;
+      default:
+        return `${this.apiUrl}/GetPicture/GetRawPicture`;
+    }
   }
 }
