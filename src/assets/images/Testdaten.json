@@ -1,0 +1,106 @@
+[
+    {
+        "TId": "1001",
+        "TName": "1001",
+        "TType": "1",
+        "TColor": "255, 153, 0",
+        "TPoint": {
+            "X": 7.84301233,
+            "Y": 0.506131768
+        },
+        "TLastTime": "2020-02-17T16:45:51.2727424+01:00",
+        "TZone": "Lager 1",
+        "TElectric": null
+    },
+    {
+        "TId": "1002",
+        "TName": "1002",
+        "TType": "1",
+        "TColor": "255, 0, 0",
+        "TPoint": {
+            "X": 8.54601,
+            "Y": 3.276168
+        },
+        "TLastTime": "2020-02-17T16:45:51.2727424+01:00",
+        "TZone": "Rundstand",
+        "TElectric": null
+    },
+    {
+        "TId": "1003",
+        "TName": "1003",
+        "TType": "1",
+        "TColor": "0, 0, 255",
+        "TPoint": {
+            "X": 4.723816,
+            "Y": 6.904005
+        },
+        "TLastTime": "2020-02-17T16:45:51.2727424+01:00",
+        "TZone": "Lager 2",
+        "TElectric": null
+    },
+    {
+        "TId": "1005",
+        "TName": "Stapler 1",
+        "TType": "2",
+        "TColor": "255, 255, 0",
+        "TPoint": {
+            "X": 0.48154074,
+            "Y": 5.332124
+        },
+        "TLastTime": "2020-02-17T16:45:51.2727424+01:00",
+        "TZone": "Lager 1",
+        "TElectric": null
+    },
+    {
+        "TId": "1006",
+        "TName": "1006",
+        "TType": "1",
+        "TColor": "128, 0, 128",
+        "TPoint": {
+            "X": 0.48154074,
+            "Y": 5.332124
+        },
+        "TLastTime": "2020-02-17T16:45:51.2727424+01:00",
+        "TZone": "Anlieferung",
+        "TElectric": null
+    },
+    {
+        "TId": "1007",
+        "TName": "1008",
+        "TType": "1",
+        "TColor": "120, 60, 255",
+        "TPoint": {
+            "X": 0.48154074,
+            "Y": 5.332124
+        },
+        "TLastTime": "2020-02-17T16:45:51.2727424+01:00",
+        "TZone": "Versand",
+        "TElectric": null
+    },
+    {
+        "TId": "1012",
+        "TName": "Stapler 2",
+        "TType": "2",
+        "TColor": "0, 255, 0",
+        "TPoint": {
+            "X": 0.48154074,
+            "Y": 5.332124
+        },
+        "TLastTime": "2020-02-17T16:45:51.2727424+01:00",
+        "TZone": "Packstation",
+        "TElectric": null
+    },
+    {
+        "TId": "1015",
+        "TName": "1015",
+        "TType": "1",
+        "TColor": "255, 64, 128",
+        "TPoint": {
+            "X": 0.48154074,
+            "Y": 5.332124
+        },
+        "TLastTime": "2020-02-17T16:45:51.2727424+01:00",
+        "TZone": "Rundstand",
+        "TElectric": null
+    }
+]

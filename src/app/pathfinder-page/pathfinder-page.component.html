@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="lists-container">
+    <div class="list-section">
+      <h3>Liste 1 - Nodes</h3>
+      <ul>
+        @for (node of list1; track node.id) {
+          <li>
+            <div>Name: {{node.name}}</div>
+            <div>Lagerplatznummer: {{node.nearestToStartName}}</div>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="list-section">
+      <h3>Liste 2 - Used Tags</h3>
+      <ul>
+        @for (tag of list2; track tag.id) {
+          <li>
+            <div>ID: {{tag.id}}</div>
+            <div>Name: {{tag.tagName}}</div>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="list-section">
+      <h3>Liste 3</h3>
+      <ul>
+        @for (item of list3; track $index) {
+          <li>{{item}}</li>
+        }
+      </ul>
+    </div>
+  </div>
+  
+  <div class="lists-container">
+    <div class="buttons-container">
+      <button (click)="startProcess(1)">Start 1</button>
+      <button (click)="startProcess(2)">Start 2</button>
+      <button (click)="startProcess(3)">Start 3</button>
+    </div>
+  </div>
+
+  <div class="image-frame">
+    @if (pictureUrl) {
+      <img [src]="pictureUrl" alt="API Picture">
+    }
+  </div>
+</div>

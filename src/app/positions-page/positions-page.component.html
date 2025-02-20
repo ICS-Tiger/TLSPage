@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row">
+    <div class="column">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Positionsdaten</h2>
+          <div class="card-subtitle">Übersicht der Positionsdaten</div>
+        </div>
+        <div class="card-body">
+          @if (posList.length === 0) {
+            <p>Loading...</p>
+          } @else {
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Farbe</th>
+                  <th>Typ</th>
+                  <th>Name</th>
+                  <th>Lagerort</th>
+                  <th>Qualität</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (pos of posList; track pos.id) {
+                  <tr>
+                    <td style="width: 60px;">
+                      <i [class]="getTypeIcon(pos.type)" class="pos-icon" [style]="getColorStyle(pos.colorString)"></i>
+                    </td>
+                    <td style="width: 60px;">
+                      <img [src]="getTypeString(pos.type, pos.io)" class="typ-icon" alt="ForkLift">
+                    </td>
+                    <td style="vertical-align: middle;">
+                      {{getTypeText(pos.type, pos.name)}}
+                    </td>
+                    <td style="vertical-align: middle;">
+                      {{pos.zone}}
+                    </td>
+                    <td style="vertical-align: middle; width: 60px;">
+                      {{pos.radius}} m
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="card">
+        @if (!imagePath) {
+          <div class="card-body">
+            <p>Loading...</p>
+          </div>
+        } @else {
+          <img [src]="imagePath" alt="Lageplan" class="map-image">
+        }
+      </div>
+    </div>
+  </div>
+</div>
